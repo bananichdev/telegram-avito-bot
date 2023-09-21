@@ -1,0 +1,4 @@
+/.env
+/venv/
+/app/parser/chrome-linux64/
+/app/parser/chromedriver-linux64/
