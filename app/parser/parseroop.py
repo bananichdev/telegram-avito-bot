@@ -6,7 +6,7 @@ from fake_useragent import UserAgent
 
 
 class AvitoParse:
-    def __init__(self, version_main: int = 116, url: str = '', items: list = ['оригинал'], count: int = 10):
+    def __init__(self, version_main: int = 117, url: str = '', items: list = ['оригинал'], count: int = 10):
         self.version_main = version_main
         self.url = url
         self.items = items
@@ -16,6 +16,7 @@ class AvitoParse:
     def __set_up(self):
         options = Options()
         options.add_argument(f'user-agent={UserAgent(browsers=["chrome"]).random}')
+        options.add_argument('--headless')
         system = os.getenv('SYSTEM')
         if system == 'linux':
             options.binary_location = 'app/parser/chrome-linux64/chrome'
@@ -24,7 +25,6 @@ class AvitoParse:
         self.driver = uc.Chrome(
             version_main=self.version_main,
             options=options,
-            headless=True,
             driver_executable_path=f'app/parser/chromedriver-{system}64/chromedriver'
         )
 
