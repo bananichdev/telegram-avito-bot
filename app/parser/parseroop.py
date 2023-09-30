@@ -42,11 +42,11 @@ class AvitoParse:
             self.driver.find_element(By.CSS_SELECTOR, value='[data-marker="pagination-button/nextPage"]').click()
 
     def __parse_page(self):
-        cards = self.driver.find_elements(By.CSS_SELECTOR, value='[data-marker="item"]')
+        cards = self.driver.find_elements(By.CSS_SELECTOR, value='div[class*="item-content"]')
         for card in cards:
             name = card.find_element(By.CSS_SELECTOR, value='[itemprop="name"]').text
             price = card.find_element(By.CSS_SELECTOR, value='[itemprop="price"]').get_attribute('content')
-            description = card.find_element(By.CSS_SELECTOR, value='[class*="item-description"]').text
+            description = card.find_element(By.CSS_SELECTOR, value='[class*="iva-item-descriptionStep"]').text
             url = card.find_element(By.CSS_SELECTOR, value='[data-marker="item-title"]').get_attribute('href')
             if any(word.lower() in description.lower() for word in self.items) and len(description) <= 250 and all(word not in description.lower() for word in ('качеств', 'люкс', 'материал')) and all(word not in name.lower() for word in ('качеств', 'люкс', 'материал')):
                 data = {
@@ -60,7 +60,7 @@ class AvitoParse:
     def __parse_first_element(self):
         name = self.driver.find_element(By.XPATH, value='//h3[@itemprop="name"]').text
         price = self.driver.find_element(By.CSS_SELECTOR, value='[itemprop="price"]').get_attribute('content')
-        description = self.driver.find_element(By.CSS_SELECTOR, value='[class*="item-description"]').text
+        description = self.driver.find_element(By.CSS_SELECTOR, value='[class*="iva-item-descriptionStep"]').text
         url = self.driver.find_element(By.CSS_SELECTOR, value='[data-marker="item-title"]').get_attribute('href')
         if all(word not in description.lower() for word in ('качеств', 'люкс', 'материал')) and all(word not in name.lower() for word in ('качеств', 'люкс', 'материал')):
             self.data = {
