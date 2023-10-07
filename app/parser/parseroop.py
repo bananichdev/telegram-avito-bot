@@ -65,15 +65,15 @@ class AvitoParse:
                     }
                     self.data.append(data)
             except Exception as e:
-                logging.error(f'Error: {e.args}', exc_info=True)
-                break
+                logging.error(f'Error: {e}', exc_info=True)
+                continue
 
     def __parse_first_element(self):
         name = self.driver.find_element(By.XPATH, value='//h3[@itemprop="name"]').text
         price = self.driver.find_element(By.CSS_SELECTOR, value='meta[itemprop="price"]').get_attribute('content')
         description = self.driver.find_element(By.CSS_SELECTOR, value='div[class*="iva-item-description"]').text
         url = self.driver.find_element(By.CSS_SELECTOR, value='a[data-marker="item-title"]').get_attribute('href')
-        if all(word not in description.lower() for word in ('качеств', 'люкс', 'материал')) and all(word not in name.lower() for word in ('качеств', 'люкс', 'материал')):
+        if all(word not in description.lower() for word in ('качеств', 'люкс', 'материал')) and all(word not in name.lower() for word in ('качеств', 'люкс', 'материал')) and len(description) <= 2000:
             self.data = {
                 'name': name,
                 'price': price,
